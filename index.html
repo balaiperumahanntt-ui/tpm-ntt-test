@@ -35,13 +35,23 @@
             background-image: url("data:image/svg+xml,%3Csvg width='40' height='70' viewBox='0 0 40 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M20 35l20 11.547v23.094L20 58.094 0 69.641V46.547zM0 23.094V0l20 11.547L40 0v23.094L20 34.641z'/%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.35;
         }
-        /* Anti-select untuk soal */
         .no-select { user-select: none; -webkit-user-select: none; }
+        
+        /* CSS Khusus agar gambar yang digenerate tampil proporsional */
+        .generated-img {
+            max-width: 100%;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 0.75rem;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid rgba(213, 197, 138, 0.5); /* khaki dengan opacity */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body class="bg-krem bg-pattern-krem min-h-screen text-midnightgreen antialiased relative z-0 no-select">
 
-    <!-- Header Ujian (Hidden di awal) -->
     <header id="examHeader" class="hidden bg-midnightgreen/95 backdrop-blur-md border-b-4 border-khaki text-krem sticky top-0 z-50 shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-3">
@@ -52,7 +62,6 @@
                         <p class="text-xs text-khaki" id="headerNamaPeserta">-</p>
                     </div>
                 </div>
-                <!-- Timer -->
                 <div class="flex items-center gap-2 bg-darkaqua px-4 py-2 rounded-xl border border-khaki/30 shadow-inner">
                     <i class="fa-regular fa-clock text-khaki animate-pulse"></i>
                     <span id="timerDisplay" class="font-bold text-lg md:text-xl font-mono tracking-wider">100:00</span>
@@ -61,10 +70,8 @@
         </div>
     </header>
 
-    <!-- KONTEN UTAMA -->
     <main class="max-w-4xl mx-auto px-4 py-8 relative z-10" id="mainContainer">
         
-        <!-- SECTION LOGIN -->
         <section id="loginSection" class="bg-white/90 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl mt-10 md:mt-20">
             <div class="text-center mb-8">
                 <img src="https://i.ibb.co.com/Gf4rz3Yn/BALAI-NT-II-8.png" alt="Balai P3KP NT II" class="w-48 mx-auto mb-4 drop-shadow-md">
@@ -96,7 +103,6 @@
             </form>
         </section>
 
-        <!-- SECTION PETUNJUK -->
         <section id="petunjukSection" class="hidden bg-white/90 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl mt-10">
             <h2 class="text-2xl font-bold text-midnightgreen mb-4 border-b-2 border-khaki pb-2"><i class="fa-solid fa-clipboard-list text-khaki mr-2"></i> Tata Tertib & Petunjuk Ujian</h2>
             <div class="bg-darkaqua/5 border border-darkaqua/20 rounded-xl p-5 mb-6 text-sm text-midnightgreen/80 space-y-3 leading-relaxed">
@@ -104,8 +110,7 @@
                 <ul class="list-disc pl-5 space-y-2 font-medium">
                     <li>Waktu pengerjaan ujian adalah <strong>100 Menit</strong>. Waktu berjalan saat Anda klik tombol "Mulai Ujian".</li>
                     <li><strong>SISTEM ANTI KECURANGAN AKTIF:</strong> Dilarang keras membuka tab baru, meminimize browser, atau melakukan split screen/belah layar.</li>
-                    <li>Sistem akan mendeteksi otomatis jika aplikasi ujian kehilangan fokus. Jika terdeteksi curang, ujian akan <strong>Otomatis Dihentikan</strong> dan dianggap selesai dengan nilai yang ada.</li>
-                    <li>Pastikan koneksi internet stabil.</li>
+                    <li>Sistem akan mendeteksi otomatis jika aplikasi ujian kehilangan fokus. Jika terdeteksi curang, ujian akan <strong>Otomatis Dihentikan</strong> dan dianggap selesai.</li>
                 </ul>
             </div>
             <button id="btnMulaiUjian" class="w-full bg-khaki text-midnightgreen font-extrabold text-lg rounded-xl py-4 hover:bg-white hover:text-darkaqua shadow-lg hover:shadow-xl transition-all uppercase tracking-wide border-2 border-transparent hover:border-khaki">
@@ -113,21 +118,20 @@
             </button>
         </section>
 
-        <!-- SECTION UJIAN -->
         <section id="ujianSection" class="hidden">
             <div class="bg-white/95 backdrop-blur-xl border border-khaki/30 p-6 md:p-8 rounded-3xl shadow-2xl">
                 <div class="flex justify-between items-center mb-6 border-b border-darkaqua/10 pb-4">
-                    <span class="text-sm font-bold bg-khaki/20 text-darkaqua px-4 py-1.5 rounded-full border border-khaki/50" id="soalIndikator">Soal 1 dari 50</span>
+                    <span class="text-sm font-bold bg-khaki/20 text-darkaqua px-4 py-1.5 rounded-full border border-khaki/50" id="soalIndikator">Soal 1 dari X</span>
                 </div>
                 
-                <!-- Kontainer Teks Soal -->
+                <!-- Kontainer Teks Soal & Gambar -->
                 <div id="teksSoal" class="text-lg md:text-xl font-medium text-midnightgreen mb-8 leading-relaxed">
                     Loading soal...
                 </div>
 
                 <!-- Kontainer Pilihan Ganda -->
-                <div id="opsiJawaban" class="space-y-3 mb-8">
-                    <!-- Opsi digenerate via JS -->
+                <div id="opsiJawaban" class="space-y-4 mb-8">
+                    <!-- Opsi akan digenerate via JS -->
                 </div>
 
                 <!-- Navigasi Bawah -->
@@ -145,7 +149,6 @@
             </div>
         </section>
 
-        <!-- SECTION HASIL -->
         <section id="hasilSection" class="hidden text-center bg-white/95 backdrop-blur-xl p-10 rounded-3xl shadow-2xl mt-10 md:mt-20">
             <div class="w-24 h-24 bg-khaki rounded-full flex items-center justify-center mx-auto mb-6 text-5xl text-midnightgreen shadow-inner">
                 <i class="fa-solid fa-flag-checkered"></i>
@@ -163,7 +166,6 @@
 
     </main>
 
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="fixed inset-0 bg-midnightgreen/80 backdrop-blur-sm z-[9999] flex-col justify-center items-center hidden">
         <i class="fa-solid fa-circle-notch fa-spin text-6xl text-khaki mb-4"></i>
         <p class="text-krem font-bold text-lg animate-pulse" id="loadingText">Memproses data...</p>
@@ -171,31 +173,44 @@
 
     <!-- LOGIKA JAVASCRIPT -->
     <script>
-        // === KONFIGURASI API (GANTI DENGAN URL WEB APP GS ANDA) ===
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybV-dL61p6D2ofVhqJAj0m_oXKDBEC1GBIETh_kOX4-JURDsF21O4huSSUDes27giYrg/exec"; 
+        // === GANTI DENGAN URL WEB APP GS ANDA ===
+        const SCRIPT_URL = "URL_WEB_APP_GS_ANDA_DISINI"; 
 
-        // State Ujian
         let userData = null;
         let questions = [];
         let currentQuestionIndex = 0;
-        let answers = {}; // object { "UMUM_1": "A", ... }
+        let answers = {}; 
         
         let examActive = false;
         let cheatLog = [];
         let timerInterval;
-        let timeRemaining = 100 * 60; // 100 menit
+        let timeRemaining = 100 * 60;
 
-        // Element Referensi
         const overlay = document.getElementById('loadingOverlay');
         const overlayText = document.getElementById('loadingText');
 
-        // Form Submit Login
+        // Fungsi khusus pengubah Link Google Drive menjadi Tag Image HTML
+        function parseTextAndImages(text) {
+            if (!text) return "";
+            
+            // Regex untuk mendeteksi ID file dari URL Google Drive
+            const driveRegex = /https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)(?:\/[a-zA-Z0-9_-\?\=]*)?/g;
+            
+            let htmlText = text.replace(driveRegex, (match, fileId) => {
+                // Mengubah URL drive menjadi URL direct image
+                const imageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                return `<img src="${imageUrl}" alt="Gambar Lampiran" class="generated-img block">`;
+            });
+
+            // Ganti baris baru (\n) menjadi <br> agar teks tetap rapi
+            htmlText = htmlText.replace(/\n/g, '<br>');
+            return htmlText;
+        }
+
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('loginID').value;
             const formasi = document.getElementById('loginFormasi').value;
-            const nama = document.getElementById('loginNama').value; // Hanya untuk fallback
-
             showLoading("Memeriksa data kepesertaan...");
 
             try {
@@ -211,11 +226,9 @@
                     document.getElementById('headerNamaPeserta').textContent = userData.nama + ' - ' + userData.formasi;
                     document.getElementById('pesertaNamaLable').textContent = userData.nama;
                     
-                    // Transisi ke Petunjuk
                     document.getElementById('loginSection').classList.add('hidden');
                     document.getElementById('petunjukSection').classList.remove('hidden');
                     
-                    // Pre-fetch soal
                     fetchSoal();
                 } else {
                     Swal.fire({ icon: 'error', title: 'Akses Ditolak', text: result.message, confirmButtonColor: '#0E5B73' });
@@ -227,7 +240,6 @@
             }
         });
 
-        // Ambil Soal
         async function fetchSoal() {
             try {
                 const response = await fetch(SCRIPT_URL, {
@@ -246,14 +258,12 @@
             }
         }
 
-        // Mulai Ujian
         document.getElementById('btnMulaiUjian').addEventListener('click', () => {
             if(questions.length === 0) {
-                Swal.fire({ icon: 'warning', title: 'Tunggu Sebentar', text: 'Soal sedang diunduh, mohon tunggu beberapa detik lalu klik lagi.', confirmButtonColor: '#D5C58A' });
+                Swal.fire({ icon: 'warning', title: 'Tunggu Sebentar', text: 'Soal sedang diunduh, mohon tunggu.', confirmButtonColor: '#D5C58A' });
                 return;
             }
             
-            // Masuk mode Fullscreen & Anti Cheat
             initAntiCheat();
             try { document.documentElement.requestFullscreen(); } catch (e) {}
 
@@ -269,32 +279,35 @@
         function renderQuestion() {
             const q = questions[currentQuestionIndex];
             document.getElementById('soalIndikator').textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}`;
-            document.getElementById('teksSoal').textContent = q.soal;
-
-            // Handle Pilihan Jawaban (Pisahkan berdasarkan enter/newline, pastikan format dari gsheet rapih baris per baris)
-            let optionsHTML = '';
-            let rawOptions = q.pilihan.toString().split('\n').filter(o => o.trim() !== '');
             
-            // Huruf A, B, C... untuk fallback
+            // Render Soal + Render Gambar
+            document.getElementById('teksSoal').innerHTML = parseTextAndImages(q.soal);
+
+            let optionsHTML = '';
+            
+            // ====== PERUBAHAN UTAMA: Memisahkan jawaban dengan titik koma (;) ======
+            let rawOptions = q.pilihan.toString().split(';').map(o => o.trim()).filter(o => o !== '');
+            
             const abcd = ['A', 'B', 'C', 'D', 'E'];
 
             rawOptions.forEach((opt, idx) => {
                 const letter = abcd[idx] || '?';
-                // Asumsi jika pengguna mengetik di gsheet "A. Jawaban", kita biarkan saja. Tapi jika tidak, kita gunakan huruf.
-                // Untuk keamanan pengiriman kunci, opsi yang dikirim adalah Huruf (A,B,C,D,E)
                 const isChecked = answers[q.idSoal] === letter ? 'checked' : '';
+                
+                // Render teks jawaban dan render gambar jika opsi tersebut merupakan link
+                const parsedOptionText = parseTextAndImages(opt);
+
                 optionsHTML += `
                     <label class="block cursor-pointer group">
-                        <div class="flex items-center p-4 border border-darkaqua/20 rounded-xl bg-white hover:bg-krem hover:border-khaki transition-all shadow-sm ${isChecked ? 'ring-2 ring-khaki bg-krem' : ''}">
-                            <input type="radio" name="soalOpsi" value="${letter}" ${isChecked} class="w-5 h-5 text-darkaqua bg-gray-100 border-gray-300 focus:ring-khaki focus:ring-2 cursor-pointer" onchange="saveAnswer('${q.idSoal}', '${letter}')">
-                            <span class="ml-3 text-midnightgreen font-medium text-sm md:text-base">${opt}</span>
+                        <div class="flex items-start p-4 border border-darkaqua/20 rounded-xl bg-white hover:bg-krem hover:border-khaki transition-all shadow-sm ${isChecked ? 'ring-2 ring-khaki bg-krem' : ''}">
+                            <input type="radio" name="soalOpsi" value="${letter}" ${isChecked} class="mt-1 w-5 h-5 text-darkaqua bg-gray-100 border-gray-300 focus:ring-khaki focus:ring-2 cursor-pointer shrink-0" onchange="saveAnswer('${q.idSoal}', '${letter}')">
+                            <div class="ml-3 text-midnightgreen font-medium text-sm md:text-base break-words w-full">${parsedOptionText}</div>
                         </div>
                     </label>
                 `;
             });
             document.getElementById('opsiJawaban').innerHTML = optionsHTML;
 
-            // Logika Tombol
             document.getElementById('btnPrev').classList.toggle('hidden', currentQuestionIndex === 0);
             if (currentQuestionIndex === questions.length - 1) {
                 document.getElementById('btnNext').classList.add('hidden');
@@ -307,7 +320,7 @@
 
         window.saveAnswer = function(idSoal, val) {
             answers[idSoal] = val;
-            renderQuestion(); // Re-render agar style terpilih teraplikasi
+            renderQuestion(); 
         }
 
         document.getElementById('btnPrev').addEventListener('click', () => {
@@ -318,31 +331,21 @@
             if (currentQuestionIndex < questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
         });
 
-        // ================= ANTI CHEAT MODULE =================
+        // Anti Cheat
         function initAntiCheat() {
-            // 1. Deteksi Pindah Tab / Minimize
             document.addEventListener("visibilitychange", () => {
                 if (document.hidden && examActive) triggerCheat("Pindah tab / Minimize Aplikasi");
             });
-
-            // 2. Deteksi Kehilangan Fokus (Alt+Tab, Buka Notifikasi di HP)
             window.addEventListener("blur", () => {
                 if (examActive) triggerCheat("Layar kehilangan fokus");
             });
-
-            // 3. Deteksi Split Screen (Responsif Resize)
             let initWidth = window.innerWidth;
             window.addEventListener('resize', () => {
                 if(examActive) {
                     let currentWidth = window.innerWidth;
                     let currentHeight = window.innerHeight;
-                    // Jika layar menyusut drastis ke kiri/kanan atau atas/bawah secara mendadak saat ujian
-                    if (currentWidth < screen.width * 0.7 && screen.width > 768) {
-                        triggerCheat("Terdeteksi Split Screen (Layar Menyusut)");
-                    }
-                    if (currentHeight < screen.height * 0.6 && window.innerWidth == initWidth) { // Android belah atas bawah
-                         triggerCheat("Terdeteksi Split Screen (Split Atas Bawah)");
-                    }
+                    if (currentWidth < screen.width * 0.7 && screen.width > 768) triggerCheat("Terdeteksi Split Screen");
+                    if (currentHeight < screen.height * 0.6 && window.innerWidth == initWidth) triggerCheat("Terdeteksi Split Screen (Bawah)");
                 }
             });
         }
@@ -357,28 +360,23 @@
                 confirmButtonText: 'Tutup',
                 confirmButtonColor: '#d33',
                 allowOutsideClick: false
-            }).then(() => {
-                submitExam(); // Paksa submit
-            });
+            }).then(() => { submitExam(); });
         }
 
-        // ================= PENGHITUNG WAKTU =================
         function startTimer() {
             timerInterval = setInterval(() => {
                 timeRemaining--;
                 let m = Math.floor(timeRemaining / 60);
                 let s = timeRemaining % 60;
-                document.getElementById('timerDisplay').textContent = 
-                    (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
+                document.getElementById('timerDisplay').textContent = (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
                 
                 if (timeRemaining <= 0) {
                     clearInterval(timerInterval);
-                    Swal.fire('Waktu Habis!', 'Sistem mengumpulkan jawaban secara otomatis.', 'info').then(() => submitExam());
+                    Swal.fire('Waktu Habis!', 'Jawaban otomatis terkumpul.', 'info').then(() => submitExam());
                 }
             }, 1000);
         }
 
-        // ================= SUBMIT UJIAN =================
         document.getElementById('btnSelesai').addEventListener('click', () => {
             Swal.fire({
                 title: 'Kumpulkan Ujian?',
@@ -430,26 +428,23 @@
                     if(cheatLog.length > 0) {
                         const curangTxt = document.getElementById('statusCurangPeringatan');
                         curangTxt.classList.remove('hidden');
-                        curangTxt.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>Diskualifikasi/Peringatan:</strong> ${result.status}`;
+                        curangTxt.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>Diskualifikasi:</strong> ${result.status}`;
                     }
                 } else {
-                    Swal.fire('Error', 'Gagal menyimpan nilai, hubungi Panitia.', 'error');
+                    Swal.fire('Error', 'Gagal menyimpan nilai.', 'error');
                 }
             } catch (err) {
                 hideLoading();
-                Swal.fire('Gagal Jaringan', 'Sistem gagal merespon, Jangan tutup halaman ini, panggil panitia!', 'error');
+                Swal.fire('Gagal Jaringan', 'Sistem gagal merespon, jangan tutup halaman ini dan lapor panitia!', 'error');
             }
         }
 
-        // Utils UI
         function showLoading(text) {
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
+            overlay.classList.remove('hidden'); overlay.classList.add('flex');
             overlayText.textContent = text;
         }
         function hideLoading() {
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
+            overlay.classList.add('hidden'); overlay.classList.remove('flex');
         }
     </script>
 </body>
