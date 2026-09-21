@@ -4,447 +4,447 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Ujian Seleksi TPM 2026 | Balai P3KP NT II</title>
-
-    <!-- Favicon & Fonts -->
-    <link rel="icon" type="image/png" href="https://i.ibb.co.com/RpTQRCrn/logo.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co.com/RpTQRCrn/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co.com/RpTQRCrn/logo.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co.com/RpTQRCrn/logo.png">
+  
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        krem: '#F2EEDF',
-                        khaki: '#D5C58A',
-                        darkaqua: '#0E5B73',
-                        midnightgreen: '#084C61',
-                    }
-                }
-            }
+            theme: { extend: { colors: { krem: '#F2EEDF', khaki: '#D5C58A', darkaqua: '#0E5B73', midnightgreen: '#084C61' } } }
         }
     </script>
+    
     <style>
+        body { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
         .bg-pattern-krem::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
+            content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
             background-image: url("data:image/svg+xml,%3Csvg width='40' height='70' viewBox='0 0 40 70' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M20 35l20 11.547v23.094L20 58.094 0 69.641V46.547zM0 23.094V0l20 11.547L40 0v23.094L20 34.641z'/%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.35;
         }
-        .no-select { user-select: none; -webkit-user-select: none; }
-        
-        /* CSS Khusus agar gambar yang digenerate tampil proporsional */
-        .generated-img {
-            max-width: 100%;
-            max-height: 350px;
-            object-fit: contain;
-            border-radius: 0.75rem;
-            margin-top: 0.75rem;
-            margin-bottom: 0.75rem;
-            border: 1px solid rgba(213, 197, 138, 0.5); /* khaki dengan opacity */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
     </style>
 </head>
-<body class="bg-krem bg-pattern-krem min-h-screen text-midnightgreen antialiased relative z-0 no-select">
+<body class="bg-krem bg-pattern-krem min-h-screen text-midnightgreen antialiased relative z-0">
 
-    <header id="examHeader" class="hidden bg-midnightgreen/95 backdrop-blur-md border-b-4 border-khaki text-krem sticky top-0 z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-3">
-                <div class="flex items-center shrink-0 gap-3">
-                    <img src="https://i.ibb.co.com/RpTQRCrn/logo.png" alt="Logo" class="w-10 h-auto object-contain">
-                    <div class="hidden sm:block">
-                        <h1 class="text-lg font-bold">Ujian Seleksi TPM</h1>
-                        <p class="text-xs text-khaki" id="headerNamaPeserta">-</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2 bg-darkaqua px-4 py-2 rounded-xl border border-khaki/30 shadow-inner">
-                    <i class="fa-regular fa-clock text-khaki animate-pulse"></i>
-                    <span id="timerDisplay" class="font-bold text-lg md:text-xl font-mono tracking-wider">100:00</span>
-                </div>
+    <header id="examHeader" class="hidden bg-midnightgreen/95 backdrop-blur-md text-krem sticky top-0 z-50 shadow-md border-b-4 border-khaki transition-all">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex flex-col">
+                <h1 class="text-lg font-bold tracking-wide text-white">Ujian Seleksi TPM</h1>
+                <span class="text-[10px] font-bold text-khaki uppercase tracking-widest mt-0.5">Balai P3KP Nusa Tenggara II</span>
             </div>
+            <div class="bg-darkaqua px-4 py-2 rounded-xl border border-khaki/30 font-mono font-bold text-lg shadow-inner" id="timerDisplay">--:--</div>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-8 relative z-10" id="mainContainer">
+    <main class="max-w-4xl mx-auto px-4 py-8">
         
-        <section id="loginSection" class="bg-white/90 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl mt-10 md:mt-20">
-            <div class="text-center mb-8">
-                <img src="https://i.ibb.co.com/Gf4rz3Yn/BALAI-NT-II-8.png" alt="Balai P3KP NT II" class="w-48 mx-auto mb-4 drop-shadow-md">
-                <h2 class="text-2xl md:text-3xl font-extrabold text-midnightgreen mb-2">Portal Ujian TPM Online</h2>
-                <p class="text-darkaqua text-sm">Balai Pelaksana Penyediaan Perumahan dan Kawasan Permukiman Nusa Tenggara II</p>
+        <!-- LOGIN -->
+        <section id="loginSection" class="bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-khaki/30 mt-10 max-w-md mx-auto relative z-10 transition-all">
+            <div class="text-center mb-6">
+                <i class="fa-solid fa-laptop-file text-5xl text-darkaqua mb-3"></i>
+                <h2 class="text-2xl font-extrabold text-midnightgreen">Portal Ujian Online</h2>
+                <p class="text-sm text-darkaqua font-medium mt-1">Seleksi Calon Fasilitator 2026</p>
             </div>
             
-            <form id="loginForm" class="space-y-5 max-w-md mx-auto">
+            <form id="loginForm" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold text-midnightgreen mb-1">Nama Lengkap</label>
-                    <input type="text" id="loginNama" required class="w-full bg-white border border-darkaqua/30 text-midnightgreen rounded-xl px-4 py-3 focus:outline-none focus:border-khaki focus:ring-2 focus:ring-khaki transition-all shadow-sm">
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">ID Pendaftaran / Peserta</label>
+                    <input type="text" id="loginID" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
                 </div>
                 <div>
-                    <label class="block text-sm font-bold text-midnightgreen mb-1">ID Pendaftaran</label>
-                    <input type="text" id="loginID" required class="w-full bg-white border border-darkaqua/30 text-midnightgreen rounded-xl px-4 py-3 focus:outline-none focus:border-khaki focus:ring-2 focus:ring-khaki transition-all shadow-sm">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-midnightgreen mb-1">Formasi Lamaran</label>
-                    <select id="loginFormasi" required class="w-full bg-white border border-darkaqua/30 text-midnightgreen rounded-xl px-4 py-3 focus:outline-none focus:border-khaki focus:ring-2 focus:ring-khaki transition-all shadow-sm cursor-pointer">
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Formasi Lamaran</label>
+                    <select id="loginFormasi" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all cursor-pointer">
                         <option value="" disabled selected>Pilih Formasi...</option>
-                        <option value="TPM TEKNIK">TPM TEKNIK</option>
-                        <option value="TPM PEMBERDAYAAN">TPM PEMBERDAYAAN</option>
+                        <option value="TPM">TPM</option>
                         <option value="KOORDINATOR WILAYAH">KOORDINATOR WILAYAH</option>
                     </select>
                 </div>
-                <button type="submit" id="btnLogin" class="w-full bg-darkaqua text-krem font-bold text-lg rounded-xl py-3.5 hover:bg-midnightgreen hover:shadow-lg hover:-translate-y-0.5 transition-all mt-4 border border-midnightgreen/20">
-                    Masuk Portal Ujian <i class="fa-solid fa-right-to-bracket ml-2"></i>
+               <div>
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Password Ujian</label>
+                    <div class="relative">
+                        <input type="password" id="loginPassword" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
+                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-4 flex items-center text-midnightgreen/60 hover:text-darkaqua transition-colors focus:outline-none">
+                            <i class="fa-solid fa-eye text-lg" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" id="btnLogin" class="w-full bg-darkaqua text-krem font-bold py-3.5 rounded-xl hover:bg-khaki hover:text-midnightgreen transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 mt-2">
+                    Masuk <i class="fa-solid fa-right-to-bracket ml-2"></i>
                 </button>
             </form>
         </section>
 
-        <section id="petunjukSection" class="hidden bg-white/90 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl mt-10">
-            <h2 class="text-2xl font-bold text-midnightgreen mb-4 border-b-2 border-khaki pb-2"><i class="fa-solid fa-clipboard-list text-khaki mr-2"></i> Tata Tertib & Petunjuk Ujian</h2>
-            <div class="bg-darkaqua/5 border border-darkaqua/20 rounded-xl p-5 mb-6 text-sm text-midnightgreen/80 space-y-3 leading-relaxed">
-                <p>Selamat datang, <strong id="pesertaNamaLable" class="text-darkaqua"></strong>. Silakan baca petunjuk dengan teliti:</p>
-                <ul class="list-disc pl-5 space-y-2 font-medium">
-                    <li>Waktu pengerjaan ujian adalah <strong>100 Menit</strong>. Waktu berjalan saat Anda klik tombol "Mulai Ujian".</li>
-                    <li><strong>SISTEM ANTI KECURANGAN AKTIF:</strong> Dilarang keras membuka tab baru, meminimize browser, atau melakukan split screen/belah layar.</li>
-                    <li>Sistem akan mendeteksi otomatis jika aplikasi ujian kehilangan fokus. Jika terdeteksi curang, ujian akan <strong>Otomatis Dihentikan</strong> dan dianggap selesai.</li>
-                </ul>
-            </div>
-            <button id="btnMulaiUjian" class="w-full bg-khaki text-midnightgreen font-extrabold text-lg rounded-xl py-4 hover:bg-white hover:text-darkaqua shadow-lg hover:shadow-xl transition-all uppercase tracking-wide border-2 border-transparent hover:border-khaki">
-                Mulai Ujian Sekarang
-            </button>
-        </section>
-
-        <section id="ujianSection" class="hidden">
-            <div class="bg-white/95 backdrop-blur-xl border border-khaki/30 p-6 md:p-8 rounded-3xl shadow-2xl">
-                <div class="flex justify-between items-center mb-6 border-b border-darkaqua/10 pb-4">
-                    <span class="text-sm font-bold bg-khaki/20 text-darkaqua px-4 py-1.5 rounded-full border border-khaki/50" id="soalIndikator">Soal 1 dari X</span>
-                </div>
-                
-                <!-- Kontainer Teks Soal & Gambar -->
-                <div id="teksSoal" class="text-lg md:text-xl font-medium text-midnightgreen mb-8 leading-relaxed">
-                    Loading soal...
-                </div>
-
-                <!-- Kontainer Pilihan Ganda -->
-                <div id="opsiJawaban" class="space-y-4 mb-8">
-                    <!-- Opsi akan digenerate via JS -->
-                </div>
-
-                <!-- Navigasi Bawah -->
-                <div class="flex justify-between items-center mt-10">
-                    <button id="btnPrev" class="px-6 py-3 rounded-xl font-bold bg-krem text-midnightgreen hover:bg-darkaqua hover:text-krem transition-colors shadow-sm hidden border border-darkaqua/20">
-                        <i class="fa-solid fa-arrow-left mr-2"></i> Sebelumnya
-                    </button>
-                    <button id="btnNext" class="px-6 py-3 rounded-xl font-bold bg-darkaqua text-krem hover:bg-midnightgreen transition-colors shadow-lg border border-transparent ml-auto">
-                        Berikutnya <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
-                    <button id="btnSelesai" class="px-6 py-3 rounded-xl font-bold bg-red-600 text-white hover:bg-red-700 transition-colors shadow-lg hidden">
-                        Selesai & Kumpulkan <i class="fa-solid fa-check-double ml-2"></i>
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="hasilSection" class="hidden text-center bg-white/95 backdrop-blur-xl p-10 rounded-3xl shadow-2xl mt-10 md:mt-20">
-            <div class="w-24 h-24 bg-khaki rounded-full flex items-center justify-center mx-auto mb-6 text-5xl text-midnightgreen shadow-inner">
-                <i class="fa-solid fa-flag-checkered"></i>
-            </div>
-            <h2 class="text-3xl font-extrabold text-midnightgreen mb-2">Ujian Selesai!</h2>
-            <p class="text-darkaqua mb-8">Terima kasih telah mengikuti ujian seleksi.</p>
+        <!-- KONFIRMASI -->
+        <section id="konfirmasiSection" class="hidden bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-khaki/30 mt-10 max-w-md mx-auto relative z-10 transition-all text-center">
+            <i class="fa-solid fa-address-card text-5xl text-darkaqua mb-4"></i>
+            <h2 class="text-2xl font-extrabold text-midnightgreen mb-5">Konfirmasi Data</h2>
             
-            <div class="bg-krem rounded-2xl p-6 max-w-sm mx-auto border border-khaki/30 mb-8 shadow-inner">
-                <p class="text-sm font-bold text-midnightgreen/70 uppercase mb-1">Nilai Anda</p>
-                <p class="text-6xl font-black text-darkaqua" id="skorAkhir">0</p>
+            <div class="bg-krem/50 rounded-xl p-5 mb-6 text-left space-y-3 border border-khaki/30">
+                <div>
+                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Nama Lengkap</p>
+                    <p class="text-lg font-extrabold text-midnightgreen leading-tight" id="konfNama">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">ID Peserta</p>
+                    <p class="text-sm font-semibold text-midnightgreen" id="konfID">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Formasi</p>
+                    <p class="text-sm font-semibold text-midnightgreen" id="konfFormasi">-</p>
+                </div>
+                <div>
+                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Kabupaten / Kota</p>
+                    <p class="text-sm font-semibold text-midnightgreen" id="konfKabKota">-</p>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button id="btnBatalKonfirmasi" class="flex-1 bg-gray-200 text-midnightgreen font-bold py-3 rounded-xl hover:bg-gray-300 transition-colors">Bukan Saya</button>
+                <button id="btnLanjutUjian" class="flex-[1.5] bg-darkaqua text-krem font-bold py-3 rounded-xl hover:bg-khaki hover:text-midnightgreen transition-colors shadow-lg">Ya, Mulai Ujian</button>
+            </div>
+        </section>
+
+        <!-- UJIAN -->
+        <section id="ujianSection" class="hidden bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-khaki/30 relative z-10">
+            <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-200">
+                <div class="text-sm font-bold text-darkaqua bg-krem px-3 py-1 rounded-lg" id="soalIndikator">Soal 1 dari X</div>
+                <div class="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-lg" id="statusTerjawabInfo">Terjawab: 0 | Belum: 0</div>
             </div>
             
-            <p class="text-xs text-red-600 font-medium max-w-md mx-auto bg-red-50 p-3 rounded-lg hidden" id="statusCurangPeringatan"></p>
+            <div id="navigasiGrid" class="grid grid-cols-6 sm:grid-cols-10 gap-2 mb-6 p-4 bg-midnightgreen/5 rounded-2xl max-h-40 overflow-y-auto border border-khaki/30 shadow-inner"></div>
+
+            <div id="teksSoal" class="text-lg md:text-xl font-medium mb-6 leading-relaxed text-midnightgreen">Memuat soal...</div>
+            <div id="opsiJawaban" class="space-y-3 mb-8"></div>
+            
+            <div class="flex justify-between items-center pt-5 border-t border-gray-200">
+                <button id="btnPrev" class="px-6 py-2.5 rounded-xl bg-gray-200 font-bold text-midnightgreen hover:bg-gray-300 transition-colors shadow-sm">Sebelumnya</button>
+                <button id="btnNext" class="px-6 py-2.5 rounded-xl bg-darkaqua text-krem font-bold hover:bg-khaki hover:text-midnightgreen transition-colors shadow-lg">Berikutnya</button>
+                <button id="btnSelesai" class="px-6 py-2.5 rounded-xl bg-red-600 text-white font-bold hover:bg-red-700 hidden transition-all shadow-lg hover:scale-105"><i class="fa-solid fa-paper-plane mr-2"></i>Kumpulkan</button>
+            </div>
         </section>
 
+        <!-- HASIL -->
+        <section id="hasilSection" class="hidden text-center bg-white/95 backdrop-blur-sm p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-khaki/30 relative z-10 max-w-lg mx-auto mt-10">
+            <i class="fa-solid fa-circle-check text-6xl text-darkaqua mb-4"></i>
+            <h2 class="text-3xl font-extrabold mb-2 text-midnightgreen">Ujian Telah Selesai</h2>
+            <p class="text-sm font-semibold text-midnightgreen/60 mb-6">Berikut adalah akumulasi skor Anda:</p>
+            <div class="text-7xl font-black text-darkaqua mb-4 drop-shadow-md" id="skorAkhir">0</div>
+            <p id="statusCurangPeringatan" class="text-sm text-red-600 font-medium mt-4"></p>
+        </section>
     </main>
 
-    <div id="loadingOverlay" class="fixed inset-0 bg-midnightgreen/80 backdrop-blur-sm z-[9999] flex-col justify-center items-center hidden">
-        <i class="fa-solid fa-circle-notch fa-spin text-6xl text-khaki mb-4"></i>
-        <p class="text-krem font-bold text-lg animate-pulse" id="loadingText">Memproses data...</p>
-    </div>
-
-    <!-- LOGIKA JAVASCRIPT -->
     <script>
-        // === GANTI DENGAN URL WEB APP GS ANDA ===
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbybV-dL61p6D2ofVhqJAj0m_oXKDBEC1GBIETh_kOX4-JURDsF21O4huSSUDes27giYrg/exec"; 
-
-        let userData = null;
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let answers = {}; 
+        // =========================================================================
+        // MASUKKAN URL DEPLOYMENT GOOGLE SCRIPT TERBARU ANDA DI SINI
+        // =========================================================================
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHguf8Qu0lLz4MpKergkXn9TYyyjQ6eIpthTxhNWiX1xfMZdw0CIB_GQah6cyioXdJzg/exec";
         
-        let examActive = false;
-        let cheatLog = [];
-        let timerInterval;
-        let timeRemaining = 100 * 60;
+        let userData = null, questions = [], currentIdx = 0, answers = {}, timerInterval;
+        let cheatLog = [], examStarted = false, violationCount = 0;
+        const maxViolations = 2;
+        let examTimerSeconds = 0;
+        let hasPromptedAllAnswered = false; // Mencegah popup muncul berkali-kali
 
-        const overlay = document.getElementById('loadingOverlay');
-        const overlayText = document.getElementById('loadingText');
-
-        // Fungsi khusus pengubah Link Google Drive menjadi Tag Image HTML
-        function parseTextAndImages(text) {
-            if (!text) return "";
-            
-            // Regex untuk mendeteksi ID file dari URL Google Drive
-            const driveRegex = /https:\/\/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)(?:\/[a-zA-Z0-9_-\?\=]*)?/g;
-            
-            let htmlText = text.replace(driveRegex, (match, fileId) => {
-                // Mengubah URL drive menjadi URL direct image
-                const imageUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-                return `<img src="${imageUrl}" alt="Gambar Lampiran" class="generated-img block">`;
-            });
-
-            // Ganti baris baru (\n) menjadi <br> agar teks tetap rapi
-            htmlText = htmlText.replace(/\n/g, '<br>');
-            return htmlText;
-        }
-
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('loginID').value;
-            const formasi = document.getElementById('loginFormasi').value;
-            showLoading("Memeriksa data kepesertaan...");
-
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "LOGIN", id: id, formasi: formasi })
-                });
-                
-                const result = await response.json();
-                if (result.success) {
-                    userData = result.data;
-                    document.getElementById('headerNamaPeserta').textContent = userData.nama + ' - ' + userData.formasi;
-                    document.getElementById('pesertaNamaLable').textContent = userData.nama;
-                    
-                    document.getElementById('loginSection').classList.add('hidden');
-                    document.getElementById('petunjukSection').classList.remove('hidden');
-                    
-                    fetchSoal();
-                } else {
-                    Swal.fire({ icon: 'error', title: 'Akses Ditolak', text: result.message, confirmButtonColor: '#0E5B73' });
-                }
-            } catch (error) {
-                Swal.fire({ icon: 'error', title: 'Koneksi Gagal', text: 'Pastikan perangkat online dan URL API benar.', confirmButtonColor: '#0E5B73' });
-            } finally {
-                hideLoading();
+        document.addEventListener('copy', e => { if (examStarted) e.preventDefault(); });
+        document.addEventListener('paste', e => { if (examStarted) e.preventDefault(); });
+        document.addEventListener('cut', e => { if (examStarted) e.preventDefault(); });
+        document.addEventListener('contextmenu', e => { if (examStarted) e.preventDefault(); });
+        document.addEventListener('keydown', e => {
+            if (!examStarted) return;
+            let isCtrlOrCmd = e.ctrlKey || e.metaKey; 
+            if ((isCtrlOrCmd && ['c','v','u','p','s','a'].includes(e.key.toLowerCase())) || e.key === 'F12' || (isCtrlOrCmd && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))) {
+                e.preventDefault(); return false;
             }
         });
 
-        async function fetchSoal() {
-            try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: "GET_SOAL", formasi: userData.formasi })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    questions = result.data;
-                } else {
-                    Swal.fire({ icon: 'error', title: 'Error Soal', text: 'Gagal memuat soal.' });
-                }
-            } catch (error) {
-                console.error("Error fetching soal:", error);
-            }
+        function saveStateToLocal() {
+            if (!userData) return;
+            const state = { answers: answers, cheatLog: cheatLog, violationCount: violationCount, timeLeft: examTimerSeconds };
+            localStorage.setItem(`exam_state_${userData.id}`, JSON.stringify(state));
         }
 
-        document.getElementById('btnMulaiUjian').addEventListener('click', () => {
-            if(questions.length === 0) {
-                Swal.fire({ icon: 'warning', title: 'Tunggu Sebentar', text: 'Soal sedang diunduh, mohon tunggu.', confirmButtonColor: '#D5C58A' });
-                return;
-            }
-            
-            initAntiCheat();
-            try { document.documentElement.requestFullscreen(); } catch (e) {}
+        function restoreStateFromLocal() {
+            if (!userData) return false;
+            const savedState = localStorage.getItem(`exam_state_${userData.id}`);
+            if (savedState) {
+                try {
+                    const state = JSON.parse(savedState);
+                    answers = state.answers || {};
+                    
+                    // [PEMBERSIH BUG CACHE] Hapus otomatis jawaban lama (seperti huruf 'M') yang tidak valid
+                    const validOptions = ['A', 'B', 'C', 'D', 'E', 'F'];
+                    for (let key in answers) {
+                        if (!validOptions.includes(answers[key])) {
+                            delete answers[key];
+                        }
+                    }
 
-            document.getElementById('petunjukSection').classList.add('hidden');
+                    cheatLog = state.cheatLog || [];
+                    violationCount = state.violationCount || 0;
+                    if (state.timeLeft && state.timeLeft > 0) examTimerSeconds = state.timeLeft;
+                    return true;
+                } catch (e) {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        function handleViolation(reason) {
+            if (!examStarted) return;
+            const now = Date.now();
+            if (window._lastViolation && (now - window._lastViolation < 1000)) return;
+            window._lastViolation = now;
+
+            violationCount++;
+            cheatLog.push(`${reason} (Pelanggaran ke-${violationCount})`);
+            saveStateToLocal(); 
+
+            if (violationCount > maxViolations) {
+                examStarted = false;
+                Swal.fire({ icon: 'error', title: 'Ujian Dihentikan Otomatis!', text: 'Anda telah keluar dari layar lebih dari 2 kali. Sistem menghentikan ujian.', allowOutsideClick: false, confirmButtonText: 'Lihat Hasil'
+                }).then(() => { submitExam(false); });
+            } else {
+                Swal.fire({ icon: 'warning', title: `Peringatan Pelanggaran (${violationCount}/2)`, text: 'Jangan keluar dari halaman ujian! Jika Anda keluar sekali lagi, ujian akan otomatis dikumpulkan.', confirmButtonText: 'Kembali ke Ujian' });
+            }
+        }
+        window.addEventListener('blur', () => { if (examStarted) handleViolation("Keluar dari layar / Pindah Tab"); });
+        document.addEventListener('visibilitychange', () => { if (document.hidden && examStarted) handleViolation("Minimize browser"); });
+
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const id = document.getElementById('loginID').value.trim();
+            const formasi = document.getElementById('loginFormasi').value;
+            const password = document.getElementById('loginPassword').value; 
+            
+            Swal.fire({ title: 'Mengecek data...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+            try {
+                let res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'LOGIN', id, formasi, password }) });
+                let result = await res.json();
+                if (result.success) {
+                    userData = result.data;
+                    Swal.close();
+                    document.getElementById('loginSection').classList.add('hidden');
+                    document.getElementById('konfirmasiSection').classList.remove('hidden');
+                    
+                    document.getElementById('konfNama').innerText = userData.nama;
+                    document.getElementById('konfID').innerText = userData.id;
+                    document.getElementById('konfFormasi').innerText = userData.formasi;
+                    document.getElementById('konfKabKota').innerText = userData.kabKota;
+                } else {
+                    Swal.fire('Gagal Login', result.message, 'error');
+                }
+            } catch (err) { Swal.fire('Error', 'Koneksi ke server gagal. Coba lagi.', 'error'); }
+        });
+
+        document.getElementById('btnBatalKonfirmasi').onclick = () => {
+            document.getElementById('konfirmasiSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('loginPassword').value = ''; 
+        };
+
+        document.getElementById('btnLanjutUjian').onclick = () => {
+            document.getElementById('konfirmasiSection').classList.add('hidden');
+            loadQuestions(userData.formasi);
+        };
+
+        async function loadQuestions(formasi) {
+            Swal.fire({ title: 'Menyiapkan soal ujian...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+            try {
+                let res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'GET_SOAL', formasi }) });
+                let result = await res.json();
+                if (result.success && result.data.length > 0) {
+                    questions = result.data;
+                    Swal.close();
+                    startExamUI();
+                } else {
+                    Swal.fire('Kosong', 'Tidak ada soal untuk formasi ini.', 'warning');
+                }
+            } catch (err) { Swal.fire('Error', 'Gagal memuat soal.', 'error'); }
+        }
+
+        function startExamUI() {
+            examStarted = true;
             document.getElementById('examHeader').classList.remove('hidden');
             document.getElementById('ujianSection').classList.remove('hidden');
             
-            examActive = true;
-            startTimer();
+            const hasSavedData = restoreStateFromLocal();
+            if (!hasSavedData) {
+                 examTimerSeconds = 90 * 60; 
+            }
+            
+            // Cek apakah data dari cache menunjukkan semua soal sudah terjawab
+            if (Object.keys(answers).length === questions.length) {
+                hasPromptedAllAnswered = true; // Mencegah pop-up muncul saat baru mereload
+            }
+
             renderQuestion();
-        });
+            startTimer();
+        }
 
-        function renderQuestion() {
-            const q = questions[currentQuestionIndex];
-            document.getElementById('soalIndikator').textContent = `Soal ${currentQuestionIndex + 1} dari ${questions.length}`;
+       function renderQuestion() {
+            let q = questions[currentIdx];
+            document.getElementById('soalIndikator').innerText = `Soal ${currentIdx + 1} dari ${questions.length}`;
             
-            // Render Soal + Render Gambar
-            document.getElementById('teksSoal').innerHTML = parseTextAndImages(q.soal);
-
-            let optionsHTML = '';
+            let textSoal = q.soal;
+            textSoal = textSoal.replace(/\n/g, '<br>');
+            const driveRegex = /(?:https?:\/\/)?(?:drive\.google\.com\/file\/d\/)([a-zA-Z0-9_-]+)(?:\/[^\s]+)?/g;
             
-            // ====== PERUBAHAN UTAMA: Memisahkan jawaban dengan titik koma (;) ======
-            let rawOptions = q.pilihan.toString().split(';').map(o => o.trim()).filter(o => o !== '');
-            
-            const abcd = ['A', 'B', 'C', 'D', 'E'];
-
-            rawOptions.forEach((opt, idx) => {
-                const letter = abcd[idx] || '?';
-                const isChecked = answers[q.idSoal] === letter ? 'checked' : '';
-                
-                // Render teks jawaban dan render gambar jika opsi tersebut merupakan link
-                const parsedOptionText = parseTextAndImages(opt);
-
-                optionsHTML += `
-                    <label class="block cursor-pointer group">
-                        <div class="flex items-start p-4 border border-darkaqua/20 rounded-xl bg-white hover:bg-krem hover:border-khaki transition-all shadow-sm ${isChecked ? 'ring-2 ring-khaki bg-krem' : ''}">
-                            <input type="radio" name="soalOpsi" value="${letter}" ${isChecked} class="mt-1 w-5 h-5 text-darkaqua bg-gray-100 border-gray-300 focus:ring-khaki focus:ring-2 cursor-pointer shrink-0" onchange="saveAnswer('${q.idSoal}', '${letter}')">
-                            <div class="ml-3 text-midnightgreen font-medium text-sm md:text-base break-words w-full">${parsedOptionText}</div>
-                        </div>
-                    </label>
-                `;
+            textSoal = textSoal.replace(driveRegex, function(match, fileId) {
+                return `<br><img src="https://lh3.googleusercontent.com/d/${fileId}" alt="Gambar Soal" class="max-w-full h-auto mt-4 mb-2 rounded-xl shadow-md border border-khaki/30" onerror="this.onerror=null; this.src='https://placehold.co/600x400/0E5B73/F2EEDF?text=Akses+Gambar+Ditolak+Google+Drive';"><br>`;
             });
-            document.getElementById('opsiJawaban').innerHTML = optionsHTML;
 
-            document.getElementById('btnPrev').classList.toggle('hidden', currentQuestionIndex === 0);
-            if (currentQuestionIndex === questions.length - 1) {
-                document.getElementById('btnNext').classList.add('hidden');
-                document.getElementById('btnSelesai').classList.remove('hidden');
-            } else {
-                document.getElementById('btnNext').classList.remove('hidden');
-                document.getElementById('btnSelesai').classList.add('hidden');
+            document.getElementById('teksSoal').innerHTML = textSoal;
+            
+            let answeredCount = Object.keys(answers).length;
+            document.getElementById('statusTerjawabInfo').innerText = `Terjawab: ${answeredCount} | Belum: ${questions.length - answeredCount}`;
+
+            let navHtml = '';
+            questions.forEach((item, idx) => {
+                let isAnswered = answers[item.idSoal] !== undefined;
+                let bgClass = isAnswered ? "bg-darkaqua text-krem border-darkaqua" : "bg-white text-midnightgreen border-gray-300 hover:bg-gray-50";
+                if (idx === currentIdx) bgClass += " ring-2 ring-khaki font-bold scale-105 shadow-md";
+                navHtml += `<button onclick="jumpToQuestion(${idx})" class="py-1.5 rounded-xl border text-sm font-semibold transition-all ${bgClass}">${idx + 1}</button>`;
+            });
+            document.getElementById('navigasiGrid').innerHTML = navHtml;
+
+            let opsiHtml = '';
+            const daftarAbjad = ['A', 'B', 'C', 'D', 'E', 'F'];
+            
+            q.pilihan.forEach((p, index) => {
+                let optLetter = daftarAbjad[index];
+                let isChecked = answers[q.idSoal] === optLetter ? 'checked' : '';
+                const uniqueName = `opt_${q.idSoal}`;
+                
+                opsiHtml += `
+                    <label class="flex items-start p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 hover:border-khaki/50 transition-colors shadow-sm">
+                        <input type="radio" name="${uniqueName}" value="${optLetter}" ${isChecked} class="mt-1 mr-3 scale-125 accent-darkaqua" onchange="saveAnswer('${q.idSoal}', '${optLetter}')">
+                        <span class="text-midnightgreen/90 font-extrabold mr-2 mt-0.5">${optLetter}.</span> 
+                        <span class="text-midnightgreen/90 leading-tight">${p}</span>
+                    </label>`;
+            });
+            document.getElementById('opsiJawaban').innerHTML = opsiHtml;
+
+            document.getElementById('btnPrev').classList.toggle('hidden', currentIdx === 0);
+            document.getElementById('btnNext').classList.toggle('hidden', currentIdx === questions.length - 1);
+            
+            // [FITUR BARU] Tombol selesai akan selalu muncul jika SEMUA soal telah dijawab
+            let isAllAnswered = Object.keys(answers).length === questions.length;
+            document.getElementById('btnSelesai').classList.toggle('hidden', !(currentIdx === questions.length - 1 || isAllAnswered));
+        }
+
+        window.jumpToQuestion = function(idx) { currentIdx = idx; renderQuestion(); }
+        
+        window.saveAnswer = function(idSoal, val) { 
+            answers[idSoal] = val; 
+            saveStateToLocal(); 
+            renderQuestion(); 
+
+            // [FITUR BARU] Pop-up Konfirmasi Otomatis saat klik soal terakhir yang kosong
+            if (Object.keys(answers).length === questions.length && !hasPromptedAllAnswered) {
+                hasPromptedAllAnswered = true; // Tandai agar tidak muncul lagi jika peserta menekan 'Periksa Kembali'
+                Swal.fire({
+                    title: 'Semua Soal Terjawab!',
+                    text: 'Anda telah menyelesaikan seluruh soal. Apakah Anda ingin mengumpulkan ujian sekarang atau memeriksa kembali jawaban Anda?',
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Kumpulkan Sekarang',
+                    cancelButtonText: 'Periksa Kembali',
+                    confirmButtonColor: '#0E5B73'
+                }).then(res => { 
+                    if (res.isConfirmed) submitExam(false); 
+                });
             }
         }
 
-        window.saveAnswer = function(idSoal, val) {
-            answers[idSoal] = val;
-            renderQuestion(); 
-        }
-
-        document.getElementById('btnPrev').addEventListener('click', () => {
-            if (currentQuestionIndex > 0) { currentQuestionIndex--; renderQuestion(); }
-        });
-        
-        document.getElementById('btnNext').addEventListener('click', () => {
-            if (currentQuestionIndex < questions.length - 1) { currentQuestionIndex++; renderQuestion(); }
-        });
-
-        // Anti Cheat
-        function initAntiCheat() {
-            document.addEventListener("visibilitychange", () => {
-                if (document.hidden && examActive) triggerCheat("Pindah tab / Minimize Aplikasi");
-            });
-            window.addEventListener("blur", () => {
-                if (examActive) triggerCheat("Layar kehilangan fokus");
-            });
-            let initWidth = window.innerWidth;
-            window.addEventListener('resize', () => {
-                if(examActive) {
-                    let currentWidth = window.innerWidth;
-                    let currentHeight = window.innerHeight;
-                    if (currentWidth < screen.width * 0.7 && screen.width > 768) triggerCheat("Terdeteksi Split Screen");
-                    if (currentHeight < screen.height * 0.6 && window.innerWidth == initWidth) triggerCheat("Terdeteksi Split Screen (Bawah)");
-                }
-            });
-        }
-
-        function triggerCheat(alasan) {
-            if(!examActive) return;
-            cheatLog.push(alasan);
-            Swal.fire({
-                icon: 'error',
-                title: 'PELANGGARAN TERDETEKSI!',
-                text: alasan + '. Ujian dihentikan otomatis.',
-                confirmButtonText: 'Tutup',
-                confirmButtonColor: '#d33',
-                allowOutsideClick: false
-            }).then(() => { submitExam(); });
-        }
+        document.getElementById('btnNext').onclick = () => { if(currentIdx < questions.length - 1) { currentIdx++; renderQuestion(); } };
+        document.getElementById('btnPrev').onclick = () => { if(currentIdx > 0) { currentIdx--; renderQuestion(); } };
 
         function startTimer() {
             timerInterval = setInterval(() => {
-                timeRemaining--;
-                let m = Math.floor(timeRemaining / 60);
-                let s = timeRemaining % 60;
-                document.getElementById('timerDisplay').textContent = (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
+                let m = Math.floor(examTimerSeconds / 60), s = examTimerSeconds % 60;
+                document.getElementById('timerDisplay').innerText = `${m}:${s < 10 ? '0' : ''}${s}`;
                 
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    Swal.fire('Waktu Habis!', 'Jawaban otomatis terkumpul.', 'info').then(() => submitExam());
-                }
+                if (examTimerSeconds % 30 === 0) saveStateToLocal();
+                
+                if (--examTimerSeconds < 0) { clearInterval(timerInterval); submitExam(true); }
             }, 1000);
         }
 
-        document.getElementById('btnSelesai').addEventListener('click', () => {
+        document.getElementById('btnSelesai').onclick = () => {
+            let unansweredCount = questions.length - Object.keys(answers).length;
+            if (unansweredCount > 0) {
+                Swal.fire({ icon: 'warning', title: 'Soal Belum Lengkap!', text: `Masih ada ${unansweredCount} soal yang belum dijawab.` });
+                return;
+            }
             Swal.fire({
-                title: 'Kumpulkan Ujian?',
-                text: "Anda tidak bisa mengubah jawaban setelah ini.",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0E5B73',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Selesai!'
-            }).then((result) => {
-                if (result.isConfirmed) submitExam();
-            });
-        });
+                title: 'Kumpulkan Ujian?', text: "Pastikan semua jawaban sudah benar.", icon: 'warning', showCancelButton: true, confirmButtonText: 'Ya, Kumpulkan', confirmButtonColor: '#0E5B73'
+            }).then(res => { if (res.isConfirmed) submitExam(false); });
+        };
 
-        async function submitExam() {
-            examActive = false;
-            clearInterval(timerInterval);
-            showLoading("Menghitung Nilai & Mengirim Laporan...");
+        async function submitExam(isTimeout, attempt = 1) {
+            if (attempt === 1) clearInterval(timerInterval);
+            examStarted = false;
             
-            try { document.exitFullscreen(); } catch (e) {}
-
-            let m = Math.floor(timeRemaining / 60); let s = timeRemaining % 60;
-            let sisaTeks = (m < 10 ? '0'+m : m) + ':' + (s < 10 ? '0'+s : s);
-
-            const payload = {
-                action: "SUBMIT",
-                peserta: userData,
-                answers: answers,
-                cheatLog: cheatLog,
-                sisaWaktu: sisaTeks
-            };
+            Swal.fire({ 
+                title: attempt > 1 ? 'Antrean Penuh...' : 'Menilai ujian...', 
+                text: attempt > 1 ? `Mencoba kirim ulang (Percobaan ${attempt}/5)... Jangan tutup jendela ini!` : 'Memasukkan ke sistem (Jangan tutup jendela ini)', 
+                allowOutsideClick: false, 
+                didOpen: () => Swal.showLoading() 
+            });
 
             try {
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
+                let res = await fetch(SCRIPT_URL, {
+                    method: 'POST', body: JSON.stringify({ action: 'SUBMIT', peserta: userData, answers, cheatLog, sisaWaktu: "0" })
                 });
+                let result = await res.json();
                 
-                const result = await response.json();
-                
-                hideLoading();
-                document.getElementById('examHeader').classList.add('hidden');
-                document.getElementById('ujianSection').classList.add('hidden');
-                document.getElementById('hasilSection').classList.remove('hidden');
-                
-                if(result.success) {
-                    document.getElementById('skorAkhir').textContent = result.nilai;
+                if (result.success) {
+                    Swal.close();
+                    localStorage.removeItem(`exam_state_${userData.id}`);
+                    
+                    document.getElementById('ujianSection').classList.add('hidden');
+                    document.getElementById('examHeader').classList.add('hidden');
+                    document.getElementById('hasilSection').classList.remove('hidden');
+                    document.getElementById('skorAkhir').innerText = result.nilai;
+                    
                     if(cheatLog.length > 0) {
-                        const curangTxt = document.getElementById('statusCurangPeringatan');
-                        curangTxt.classList.remove('hidden');
-                        curangTxt.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <strong>Diskualifikasi:</strong> ${result.status}`;
+                        document.getElementById('statusCurangPeringatan').innerText = `Tercatat ${cheatLog.length} kali pelanggaran aktivitas layar.`;
                     }
+                } else if (result.retryable && attempt <= 5) {
+                    const delay = Math.floor(Math.random() * 10000) + 5000;
+                    setTimeout(() => submitExam(isTimeout, attempt + 1), delay);
                 } else {
-                    Swal.fire('Error', 'Gagal menyimpan nilai.', 'error');
+                    examStarted = !isTimeout; 
+                    Swal.fire('Mohon Maaf', result.message || 'Gagal tersimpan setelah beberapa kali coba.', 'warning');
                 }
-            } catch (err) {
-                hideLoading();
-                Swal.fire('Gagal Jaringan', 'Sistem gagal merespon, jangan tutup halaman ini dan lapor panitia!', 'error');
+            } catch (err) { 
+                if (attempt <= 5) {
+                    const delay = Math.floor(Math.random() * 10000) + 5000;
+                    setTimeout(() => submitExam(isTimeout, attempt + 1), delay);
+                } else {
+                    examStarted = !isTimeout; 
+                    Swal.fire('Koneksi Error', 'Gagal mengirim jawaban karena gangguan jaringan. Harap hubungi panitia. (Jawaban Anda sudah tersimpan aman di browser ini)', 'error'); 
+                }
             }
-        }
-
-        function showLoading(text) {
-            overlay.classList.remove('hidden'); overlay.classList.add('flex');
-            overlayText.textContent = text;
-        }
-        function hideLoading() {
-            overlay.classList.add('hidden'); overlay.classList.remove('flex');
         }
     </script>
 </body>
