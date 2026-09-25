@@ -50,8 +50,17 @@
             
             <form id="loginForm" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">ID Pendaftaran / Peserta</label>
-                    <input type="text" id="loginID" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Nama Lengkap</label>
+                    <input type="text" id="loginNama" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Tanggal Lahir</label>
+                    <input type="date" id="loginTanggalLahir" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">NIK (Wajib 16 Digit Angka)</label>
+                    <!-- Tipe text dipadukan dengan oninput agar hanya bisa mengetik angka max 16 digit -->
+                    <input type="text" id="loginNIK" required pattern="[0-9]{16}" maxlength="16" title="NIK harus tepat 16 digit angka" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16);" placeholder="Masukkan 16 Digit NIK" class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
                 </div>
                 <div>
                     <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Formasi Lamaran</label>
@@ -61,14 +70,15 @@
                         <option value="KOORDINATOR WILAYAH">KOORDINATOR WILAYAH</option>
                     </select>
                 </div>
-               <div>
-                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Password Ujian</label>
-                    <div class="relative">
-                        <input type="password" id="loginPassword" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all">
-                        <button type="button" id="togglePassword" class="absolute inset-y-0 right-0 px-4 flex items-center text-midnightgreen/60 hover:text-darkaqua transition-colors focus:outline-none">
-                            <i class="fa-solid fa-eye text-lg" id="eyeIcon"></i>
-                        </button>
-                    </div>
+                <div>
+                    <label class="block text-sm font-bold mb-1 text-midnightgreen/80">Domisili (Kabupaten / Kota)</label>
+                    <!-- Diubah menjadi Select Dropdown -->
+                    <select id="loginDomisili" required class="w-full bg-white border border-midnightgreen/20 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-khaki focus:border-khaki transition-all cursor-pointer">
+                        <option value="" disabled selected>Pilih Domisili...</option>
+                        <option value="MANGGARAI">MANGGARAI</option>
+                        <option value="MANGGARAI TIMUR">MANGGARAI TIMUR</option>
+                        <option value="NAGEKEO">NAGEKEO</option>
+                    </select>
                 </div>
                 <button type="submit" id="btnLogin" class="w-full bg-darkaqua text-krem font-bold py-3.5 rounded-xl hover:bg-khaki hover:text-midnightgreen transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 mt-2">
                     Masuk <i class="fa-solid fa-right-to-bracket ml-2"></i>
@@ -86,22 +96,28 @@
                     <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Nama Lengkap</p>
                     <p class="text-lg font-extrabold text-midnightgreen leading-tight" id="konfNama">-</p>
                 </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">NIK</p>
+                        <p class="text-sm font-semibold text-midnightgreen" id="konfNIK">-</p>
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Tanggal Lahir</p>
+                        <p class="text-sm font-semibold text-midnightgreen" id="konfTanggalLahir">-</p>
+                    </div>
+                </div>
                 <div>
-                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">ID Peserta</p>
-                    <p class="text-sm font-semibold text-midnightgreen" id="konfID">-</p>
+                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Domisili (Kab/Kota)</p>
+                    <p class="text-sm font-semibold text-midnightgreen" id="konfDomisili">-</p>
                 </div>
                 <div>
                     <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Formasi</p>
                     <p class="text-sm font-semibold text-midnightgreen" id="konfFormasi">-</p>
                 </div>
-                <div>
-                    <p class="text-[11px] font-bold text-midnightgreen/60 uppercase tracking-wider">Kabupaten / Kota</p>
-                    <p class="text-sm font-semibold text-midnightgreen" id="konfKabKota">-</p>
-                </div>
             </div>
 
             <div class="flex gap-3">
-                <button id="btnBatalKonfirmasi" class="flex-1 bg-gray-200 text-midnightgreen font-bold py-3 rounded-xl hover:bg-gray-300 transition-colors">Bukan Saya</button>
+                <button id="btnBatalKonfirmasi" class="flex-1 bg-gray-200 text-midnightgreen font-bold py-3 rounded-xl hover:bg-gray-300 transition-colors">Ubah Data</button>
                 <button id="btnLanjutUjian" class="flex-[1.5] bg-darkaqua text-krem font-bold py-3 rounded-xl hover:bg-khaki hover:text-midnightgreen transition-colors shadow-lg">Ya, Mulai Ujian</button>
             </div>
         </section>
@@ -139,13 +155,13 @@
         // =========================================================================
         // MASUKKAN URL DEPLOYMENT GOOGLE SCRIPT TERBARU ANDA DI SINI
         // =========================================================================
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwHguf8Qu0lLz4MpKergkXn9TYyyjQ6eIpthTxhNWiX1xfMZdw0CIB_GQah6cyioXdJzg/exec";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQliCmbh0n4xSo-9whgz4miwWw7o39_Iu8niKg5HNgc79r-RDh-WLTdT7gxwQcAkFb7w/exec";
         
         let userData = null, questions = [], currentIdx = 0, answers = {}, timerInterval;
         let cheatLog = [], examStarted = false, violationCount = 0;
         const maxViolations = 2;
         let examTimerSeconds = 0;
-        let hasPromptedAllAnswered = false; // Mencegah popup muncul berkali-kali
+        let hasPromptedAllAnswered = false; 
 
         document.addEventListener('copy', e => { if (examStarted) e.preventDefault(); });
         document.addEventListener('paste', e => { if (examStarted) e.preventDefault(); });
@@ -173,7 +189,6 @@
                     const state = JSON.parse(savedState);
                     answers = state.answers || {};
                     
-                    // [PEMBERSIH BUG CACHE] Hapus otomatis jawaban lama (seperti huruf 'M') yang tidak valid
                     const validOptions = ['A', 'B', 'C', 'D', 'E', 'F'];
                     for (let key in answers) {
                         if (!validOptions.includes(answers[key])) {
@@ -213,32 +228,30 @@
         window.addEventListener('blur', () => { if (examStarted) handleViolation("Keluar dari layar / Pindah Tab"); });
         document.addEventListener('visibilitychange', () => { if (document.hidden && examStarted) handleViolation("Minimize browser"); });
 
-        document.getElementById('togglePassword').addEventListener('click', function () {
-            const passwordInput = document.getElementById('loginPassword');
-            const eyeIcon = document.getElementById('eyeIcon');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
-            }
-        });
-
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const id = document.getElementById('loginID').value.trim();
-            const formasi = document.getElementById('loginFormasi').value;
-            const password = document.getElementById('loginPassword').value; 
             
+            const nama = document.getElementById('loginNama').value.trim();
+            const tanggalLahir = document.getElementById('loginTanggalLahir').value;
+            const nik = document.getElementById('loginNIK').value.trim();
+            const formasi = document.getElementById('loginFormasi').value;
+            const domisili = document.getElementById('loginDomisili').value;
+            
+            // Validasi manual NIK di JavaScript memastikan wajib 16 digit
+            if (nik.length !== 16) {
+                Swal.fire('Data Tidak Valid', 'Mohon periksa kembali NIK Anda. NIK harus terdiri dari tepat 16 digit angka.', 'error');
+                return;
+            }
+
             Swal.fire({ title: 'Mengecek data...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
 
             try {
-                let res = await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'LOGIN', id, formasi, password }) });
+                let res = await fetch(SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: JSON.stringify({ action: 'LOGIN', nama, tanggalLahir, nik, formasi, domisili }) 
+                });
                 let result = await res.json();
+                
                 if (result.success) {
                     userData = result.data;
                     Swal.close();
@@ -246,11 +259,12 @@
                     document.getElementById('konfirmasiSection').classList.remove('hidden');
                     
                     document.getElementById('konfNama').innerText = userData.nama;
-                    document.getElementById('konfID').innerText = userData.id;
+                    document.getElementById('konfNIK').innerText = userData.nik;
+                    document.getElementById('konfTanggalLahir').innerText = userData.tanggalLahir;
+                    document.getElementById('konfDomisili').innerText = userData.domisili;
                     document.getElementById('konfFormasi').innerText = userData.formasi;
-                    document.getElementById('konfKabKota').innerText = userData.kabKota;
                 } else {
-                    Swal.fire('Gagal Login', result.message, 'error');
+                    Swal.fire('Gagal Masuk', result.message, 'error');
                 }
             } catch (err) { Swal.fire('Error', 'Koneksi ke server gagal. Coba lagi.', 'error'); }
         });
@@ -258,7 +272,6 @@
         document.getElementById('btnBatalKonfirmasi').onclick = () => {
             document.getElementById('konfirmasiSection').classList.add('hidden');
             document.getElementById('loginSection').classList.remove('hidden');
-            document.getElementById('loginPassword').value = ''; 
         };
 
         document.getElementById('btnLanjutUjian').onclick = () => {
@@ -291,9 +304,8 @@
                  examTimerSeconds = 90 * 60; 
             }
             
-            // Cek apakah data dari cache menunjukkan semua soal sudah terjawab
             if (Object.keys(answers).length === questions.length) {
-                hasPromptedAllAnswered = true; // Mencegah pop-up muncul saat baru mereload
+                hasPromptedAllAnswered = true; 
             }
 
             renderQuestion();
@@ -346,7 +358,6 @@
             document.getElementById('btnPrev').classList.toggle('hidden', currentIdx === 0);
             document.getElementById('btnNext').classList.toggle('hidden', currentIdx === questions.length - 1);
             
-            // [FITUR BARU] Tombol selesai akan selalu muncul jika SEMUA soal telah dijawab
             let isAllAnswered = Object.keys(answers).length === questions.length;
             document.getElementById('btnSelesai').classList.toggle('hidden', !(currentIdx === questions.length - 1 || isAllAnswered));
         }
@@ -358,9 +369,8 @@
             saveStateToLocal(); 
             renderQuestion(); 
 
-            // [FITUR BARU] Pop-up Konfirmasi Otomatis saat klik soal terakhir yang kosong
             if (Object.keys(answers).length === questions.length && !hasPromptedAllAnswered) {
-                hasPromptedAllAnswered = true; // Tandai agar tidak muncul lagi jika peserta menekan 'Periksa Kembali'
+                hasPromptedAllAnswered = true; 
                 Swal.fire({
                     title: 'Semua Soal Terjawab!',
                     text: 'Anda telah menyelesaikan seluruh soal. Apakah Anda ingin mengumpulkan ujian sekarang atau memeriksa kembali jawaban Anda?',
