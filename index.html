@@ -145,8 +145,8 @@
         <section id="hasilSection" class="hidden text-center bg-white/95 backdrop-blur-sm p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-khaki/30 relative z-10 max-w-lg mx-auto mt-10">
             <i class="fa-solid fa-circle-check text-6xl text-darkaqua mb-4"></i>
             <h2 class="text-3xl font-extrabold mb-2 text-midnightgreen">Ujian Telah Selesai</h2>
-            <p class="text-sm font-semibold text-midnightgreen/60 mb-6">Berikut adalah akumulasi skor Anda:</p>
-            <div class="text-7xl font-black text-darkaqua mb-4 drop-shadow-md" id="skorAkhir">0</div>
+            <div class="text-2xl font-black text-darkaqua mt-6 mb-2 drop-shadow-md">Data Anda Tersimpan!</div>
+            <p class="text-sm font-semibold text-midnightgreen/60 mb-6">Terima kasih, jawaban ujian Anda telah berhasil dikirim ke dalam sistem.</p>
             <p id="statusCurangPeringatan" class="text-sm text-red-600 font-medium mt-4"></p>
         </section>
     </main>
@@ -434,7 +434,7 @@
                     document.getElementById('ujianSection').classList.add('hidden');
                     document.getElementById('examHeader').classList.add('hidden');
                     document.getElementById('hasilSection').classList.remove('hidden');
-                    document.getElementById('skorAkhir').innerText = result.nilai;
+                    
                     
                     if(cheatLog.length > 0) {
                         document.getElementById('statusCurangPeringatan').innerText = `Tercatat ${cheatLog.length} kali pelanggaran aktivitas layar.`;
